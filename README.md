@@ -19,3 +19,6 @@ import ar-python as ar
 augmented = ar.ar(<capture:int"""Camera number""">, <targetImage:str"""location of the image to replace""">, <overlayImage:str"""Image to overlay""", >)
 ```
 ## Overlaying
+```py
+augmented.ar_overlay(<nfeatures:int>"""Used for opencv calcs""", <debug:bool>"""choosing to debug or not""", <confidence:int"""confidence of the ai model""">,<displayName:str"""Title for the window of the app""">, <exit:str"""key to exit the program""">)
+```
