@@ -15,11 +15,11 @@ setup(
     long_description=open('README.txt').read() + '\n\n' +
     open('CHANGELOG.txt').read(),
     url='',
-    author='Joshua Lowe',
-    author_email='josh@edublocks.org',
+    author='Sarang T (github.com/sarangt123)',
+    author_email='sarang.thekkedathpr@gmail.com',
     license='MIT',
     classifiers=classifiers,
-    keywords='calculator',
+    keywords='Augmented reality',
     packages=find_packages(),
     install_requires=['']
 )
