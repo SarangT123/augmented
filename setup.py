@@ -4,19 +4,13 @@ classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Education',
     'Intended Audience :: Developers',
-    'Intended Audience :: Augmented reality',
-    'Natural language :: English'
     'Operating System :: OS Independent',
-    'License :: OSI Approved :: BSD-3-Clause License',
-    'Programming Language :: Python :: 3',
-    'Topic :: Education',
-    'Topic :: AR',
-    'Topic :: Augmented reality'
+    'License :: OSI Approved :: BSD License'
 ]
 
 setup(
     name='ar-python',
-    version='0.1.1',
+    version='0.1.4',
     description='Augmented reality in python made easy',
     long_description=open('README.txt').read() + '\n\n' +
     open('CHANGELOG.txt').read(),
