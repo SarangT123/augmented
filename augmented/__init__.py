@@ -87,62 +87,65 @@ class ar():
         imgTarget = cv2.drawKeypoints(imgTarget, kp1, None)
         imgAug = []
         while True:
-            success, Webcam = cap.read()
-            imgAug = Webcam.copy()
-            kp2, des2, = orb.detectAndCompute(Webcam, None)
-            Webcam = cv2.drawKeypoints(Webcam, kp1, None)
-            bf = cv2.BFMatcher()
-            matches = bf.knnMatch(des1, des2, k=2)
-            good = []
-            for m, n in matches:
-                if m.distance < 0.75 * n.distance:
-                    good.append(m)
-            if debug:
-                print(len(good))
-            imgFeatures = cv2.drawMatches(
-                imgTarget, kp1, Webcam, kp2, good, None, flags=2)
-            if len(good) > confidence:
-                srcpt = np.float32(
-                    [kp1[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
-                dstpt = np.float32(
-                    [kp2[m.trainIdx].pt for m in good]).reshape(-1, 1, 2)
-                matrix, mask = cv2.findHomography(srcpt, dstpt, cv2.RANSAC, 5)
+            try:
+                success, Webcam = cap.read()
+                imgAug = Webcam.copy()
+                kp2, des2, = orb.detectAndCompute(Webcam, None)
+                Webcam = cv2.drawKeypoints(Webcam, kp1, None)
+                bf = cv2.BFMatcher()
+                matches = bf.knnMatch(des1, des2, k=2)
+                good = []
+                for m, n in matches:
+                    if m.distance < 0.75 * n.distance:
+                        good.append(m)
                 if debug:
-                    print(matrix)
-                pts = np.float32([[0, 0], [0, height], [width, height], [
-                    width, 0]]).reshape(-1, 1, 2)
-                dst = cv2.perspectiveTransform(pts, matrix)
-                img2 = cv2.polylines(
-                    Webcam, [np.int32(dst)], True, (255, 0, 255), 3)
+                    print(len(good))
+                imgFeatures = cv2.drawMatches(
+                    imgTarget, kp1, Webcam, kp2, good, None, flags=2)
+                if len(good) > confidence:
+                    srcpt = np.float32(
+                        [kp1[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
+                    dstpt = np.float32(
+                        [kp2[m.trainIdx].pt for m in good]).reshape(-1, 1, 2)
+                    matrix, mask = cv2.findHomography(srcpt, dstpt, cv2.RANSAC, 5)
+                    if debug:
+                        print(matrix)
+                    pts = np.float32([[0, 0], [0, height], [width, height], [
+                        width, 0]]).reshape(-1, 1, 2)
+                    dst = cv2.perspectiveTransform(pts, matrix)
+                    img2 = cv2.polylines(
+                        Webcam, [np.int32(dst)], True, (255, 0, 255), 3)
 
-                imgWarp = cv2.warpPerspective(
-                    imgOverlay, matrix, (Webcam.shape[1], Webcam.shape[0]))
-                maskNew = np.zeros(
-                    (Webcam.shape[0], Webcam.shape[1]), np.uint8)
-                cv2.fillPoly(maskNew, [np.int32(dst)], (255, 255, 255))
-                maskInverse = cv2.bitwise_not(maskNew)
-                imgAug = cv2.bitwise_and(imgAug, imgAug, mask=maskInverse)
-                imgAug = cv2.bitwise_or(imgWarp, imgAug)
+                    imgWarp = cv2.warpPerspective(
+                        imgOverlay, matrix, (Webcam.shape[1], Webcam.shape[0]))
+                    maskNew = np.zeros(
+                        (Webcam.shape[0], Webcam.shape[1]), np.uint8)
+                    cv2.fillPoly(maskNew, [np.int32(dst)], (255, 255, 255))
+                    maskInverse = cv2.bitwise_not(maskNew)
+                    imgAug = cv2.bitwise_and(imgAug, imgAug, mask=maskInverse)
+                    imgAug = cv2.bitwise_or(imgWarp, imgAug)
+                    if debug:
+                        cv2.imshow('Debug window', img2)
+                        cv2.imshow('Debug window', imgWarp)
+                        cv2.imshow('Debug window', maskNew)
+                        cv2.imshow('Debug window', mask)
+                        cv2.imshow('Debug window', maskInverse)
                 if debug:
-                    cv2.imshow('Debug window', img2)
-                    cv2.imshow('Debug window', imgWarp)
-                    cv2.imshow('Debug window', maskNew)
-                    cv2.imshow('Debug window', mask)
-                    cv2.imshow('Debug window', maskInverse)
-            if debug:
-                print(len(good))
-                cv2.imshow('Debug window', imgFeatures)
+                    print(len(good))
+                    cv2.imshow('Debug window', imgFeatures)
 
-            stacked = np.concatenate((Webcam, imgAug), axis=0)
-            cv2.imshow(displayName, stacked)
+                stacked = np.concatenate((Webcam, imgAug), axis=0)
+                cv2.imshow(displayName, stacked)
 
-            cv2.waitKey(0)
+                cv2.waitKey(0)
 
-            if cv2.waitKey(1) == ord(exit):
-                cap.release()
-                break
+                if cv2.waitKey(1) == ord(exit):
+                    cap.release()
+                    break
 
-            self.cap = cap
+                self.cap = cap
+            except Exception as e:
+                print(e)
 
     def close(self):
         cap = self.cap()
