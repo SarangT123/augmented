@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import keyboard
+print('Beta version of ar-python (Copyright (c) 2021, Sarangt123 (Sarang T))')
 """
 Copyright (c) 2021, Sarangt123 (Sarang T)
 All rights reserved.
