@@ -18,7 +18,7 @@ Ar python is a cross platform module used to do augmented reality using python
 ## initializing
 -----------
 ```py
-import ar.py as ar
+import augmented as ar
 augmented = ar.ar(<capture:int"""Camera number""">, <targetImage:str"""location of the image to replace""">, <overlayImage:str"""Image to overlay""", >)
 ```
 ## Overlaying
