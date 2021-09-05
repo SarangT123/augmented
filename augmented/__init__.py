@@ -1,7 +1,11 @@
 import cv2
 import numpy as np
 import keyboard
-print('Beta version of ar-python (Copyright (c) 2021, Sarangt123 (Sarang T))')
+print("""Beta version of ar-python (Copyright (c) 2021, Sarangt123 (Sarang T))
+Created by : Sarang T (india,kerala) 
+Report bugs and issues at the githubpage
+Email : sarangthekkedathpr@gmail.com
+Contributers : Sarang""")
 """
 Copyright (c) 2021, Sarangt123 (Sarang T)
 All rights reserved.
@@ -16,7 +20,7 @@ modification, are permitted provided that the following conditions are met:
   this list of conditions and the following disclaimer in the documentation
   and/or other materials provided with the distribution.
 
-* Neither the name of the PyAutoGUI nor the names of its
+* Neither the name of the augmented-python nor the names of its
   contributors may be used to endorse or promote products derived from
   this software without specific prior written permission.
 
@@ -121,13 +125,13 @@ class ar():
                 imgAug = cv2.bitwise_or(imgWarp, imgAug)
                 if debug:
                     cv2.imshow('Debug window', img2)
-                    cv2.imshow('Debug window', imgFeatures)
                     cv2.imshow('Debug window', imgWarp)
                     cv2.imshow('Debug window', maskNew)
                     cv2.imshow('Debug window', mask)
                     cv2.imshow('Debug window', maskInverse)
             if debug:
                 print(len(good))
+                cv2.imshow('Debug window', imgFeatures)
 
             stacked = np.concatenate((Webcam, imgAug), axis=0)
             cv2.imshow(displayName, stacked)
@@ -135,11 +139,14 @@ class ar():
             cv2.waitKey(0)
 
             if cv2.waitKey(1) == ord(exit):
-                exit()
+                cap.release()
+                break
 
             self.cap = cap
 
     def close(self):
         cap = self.cap()
         cap.release()
-        exit()
+
+    def help(self):
+        print('Please check the documentation at the pypi page')
