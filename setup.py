@@ -10,7 +10,7 @@ classifiers = [
 
 setup(
     name='augmented',
-    version='1.0.2b',
+    version='1.0.3b',
     description='Augmented reality in python made easy',
     long_description=open('README.txt').read() + '\n\n' +
     open('CHANGELOG.txt').read(),
