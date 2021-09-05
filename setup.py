@@ -1,25 +1,35 @@
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, find_namespace_packages
 
 classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Education',
-    'Operating System :: Microsoft :: Windows :: Windows 10',
-    'License :: OSI Approved :: MIT License',
-    'Programming Language :: Python :: 3'
+    'Intended Audience :: Developers',
+    'Intended Audience :: Augmented reality',
+    'Natural language :: English'
+    'Operating System :: OS Independent',
+    'License :: OSI Approved :: BSD-3-Clause License',
+    'Programming Language :: Python :: 3',
+    'Topic :: Education',
+    'Topic :: AR',
+    'Topic :: Augmented reality'
 ]
 
 setup(
     name='ar-python',
-    version='0.0.1',
+    version='0.1.1',
     description='Augmented reality in python made easy',
     long_description=open('README.txt').read() + '\n\n' +
     open('CHANGELOG.txt').read(),
-    url='',
+    long_description_content_type="text/markdown",
+    url='https://www.github.com/sarangt123/ar-python',
     author='Sarang T (github.com/sarangt123)',
     author_email='sarang.thekkedathpr@gmail.com',
-    license='MIT',
+    license='BSD-3-Clause License',
     classifiers=classifiers,
     keywords='Augmented reality',
+    install_requires=["numpy==1.19.5",
+                      "opencv-python==4.2.0.34", "keyboard==0.13.5"],
     packages=find_packages(),
-    install_requires=['']
+    python_requires=">=3.6"
+
 )
