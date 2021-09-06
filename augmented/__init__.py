@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import keyboard
 print("""Beta version of ar-python (Copyright (c) 2021, Sarangt123 (Sarang T))
 Created by : Sarang T (india,kerala) 
 Report bugs and issues at the githubpage
@@ -38,20 +37,69 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 
-class ar():
-    def __init__(self, capture: int, targetImage: str, overlayImage: str):
+class packageFuncs():
+    def __init__(self, capture: int):
+        import cv2
+        import cv2.aruco as aruco
         if not isinstance(capture, int):
             raise TypeError("Expected an int")
-        self.capture = capture
-        if not isinstance(targetImage, str):
-            raise TypeError("Expected a str")
-        self.targetImage = targetImage
-        if not isinstance(overlayImage, str):
-            raise TypeError("Expected a str")
-        self.overlayImage = overlayImage
+        self.cap = capture
         return None
 
-    def ar_overlay(self, nfeatures: int, debug: bool, confidence: int, displayName: str, exit: str):
+    def findAruco(self, draw: bool = True):
+        import cv2.aruco as aruco
+        cap = self.cap
+        success, img = cap.read()
+        img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        key = getattr(
+            aruco, f'DICT_{self.markerSize}X{self.markerSize}_{self.totalMarkers}')
+        arucoDict = aruco.Dictionary_get(key)
+        arucoParam = aruco.DetectorParameters_create()
+        bboxes, ids, rejected = aruco.detectMarkers(
+            img_grey, arucoDict, parameters=arucoParam)
+        if draw:
+            aruco.drawDetectedMarkers(img, bboxes)
+        return[bboxes, ids]
+
+    def augmentaruco(self, imgAug):
+        import cv2.aruco as aruco
+        cap = self.cap
+        success, img = cap.read()
+        bbox, id = packageFuncs.findAruco()
+        topL = bbox[0][0][0], bbox[0][0][1]
+        topR = bbox[0][1][0], bbox[0][1][1]
+        btmR = bbox[0][2][0], bbox[0][2][1]
+        btmL = bbox[0][3][0], bbox[0][3][1]
+        #
+        size = imgAug.shape
+        #
+        print(topL, topR, btmR, btmL)
+        pts_dst = np.array([topL, topR, btmR, btmL])
+        pts_src = np.array(
+            [
+                [0, 0],
+                [size[1] - 1, 0],
+                [size[1] - 1, size[0] - 1],
+                [0, size[0] - 1]
+            ], dtype=float
+        )
+        h, status = cv2.findHomography(pts_src, pts_dst)
+        temp = cv2.warpPerspective(imgAug, h, (img.shape[1], img.shape[0]))
+        cv2.fillConvexPoly(img, pts_dst.astype(int), 0, 16)
+        frame = img + temp
+        return frame
+
+
+class ar():
+    def __init__(self, capture: int):
+        import cv2
+        import cv2.aruco as aruco
+        if not isinstance(capture, int):
+            raise TypeError("Expected an int")
+        self.cap = capture
+        return None
+
+    def ar_overlay(self, targetImage: str, overlayImage: str, nfeatures: int, debug: bool = True, confidence: int = 25, displayName: str = "Augmented", exit: str = 'q'):
         if not isinstance(nfeatures, int):
             raise TypeError('Expected a int')
         if not isinstance(debug, bool):
@@ -62,12 +110,18 @@ class ar():
             raise TypeError('Expected a str')
         if not isinstance(displayName, str):
             raise TypeError('Expected a str')
+        if not isinstance(targetImage, str):
+            raise TypeError("Expected a str")
+        self.targetImage = targetImage
+        if not isinstance(overlayImage, str):
+            raise TypeError("Expected a str")
+        self.overlayImage = overlayImage
         """
         
         """
 
         print('Hold exit key upto 10 secs to quit')
-        cap = cv2.VideoCapture(self.capture)
+        cap = cv2.VideoCapture(self.cap)
         imgTarget = cv2.imread(self.targetImage)
         Overlay = cv2.imread(self.overlayImage)
         self.nfeatures = nfeatures
@@ -107,7 +161,8 @@ class ar():
                         [kp1[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
                     dstpt = np.float32(
                         [kp2[m.trainIdx].pt for m in good]).reshape(-1, 1, 2)
-                    matrix, mask = cv2.findHomography(srcpt, dstpt, cv2.RANSAC, 5)
+                    matrix, mask = cv2.findHomography(
+                        srcpt, dstpt, cv2.RANSAC, 5)
                     if debug:
                         print(matrix)
                     pts = np.float32([[0, 0], [0, height], [width, height], [
@@ -146,6 +201,39 @@ class ar():
                 self.cap = cap
             except Exception as e:
                 print(e)
+
+    class aruco():
+        def __init__(self, markerSize: int = 6, totalMarkers: int = 250):
+            if not isinstance(markerSize, int):
+                raise TypeError("Expected an int")
+            self.markerSize = markerSize
+            if not isinstance(totalMarkers, int):
+                raise TypeError("Expected an int")
+            self.totalMarkers = totalMarkers
+            self.cap = cv2.VideoCapture(0)
+
+        def findAruco(self, draw: bool = True):
+            from cv2.aruco import aruco
+            cap = self.cap
+            success, img = cap.read()
+            img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            key = getattr(
+                aruco, f'DICT_{self.markerSize}X{self.markerSize}_{self.totalMarkers}')
+            arucoDict = aruco.Dictionary_get(key)
+            arucoParam = aruco.DetectorParameters_create()
+            bboxes, ids, rejected = aruco.detectMarkers(
+                img_grey, arucoDict, parameters=arucoParam)
+            if draw:
+                aruco.drawDetectedMarkers(img, bboxes)
+            return[bboxes, ids]
+
+        def augmentAruco(self, imgAug: str):
+            from cv2.aruco import aruco
+            if not isinstance(imgAug, str):
+                raise TypeError("Expected a str")
+            imgAug = cv2.imread(imgAug)
+            frame = packageFuncs.augmentaruco(imgAug)
+            return frame
 
     def close(self):
         cap = self.cap()
