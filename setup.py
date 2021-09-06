@@ -10,12 +10,12 @@ classifiers = [
 
 setup(
     name='augmented',
-    version='2.0.1b',
+    version='2.1.0Stable',
     description='Augmented reality in python made easy',
     long_description=open('README.txt').read() + '\n\n' +
     open('CHANGELOG.txt').read(),
     long_description_content_type="text/markdown",
-    url='https://www.github.com/sarangt123/ar-python',
+    url='https://www.github.com/sarangt123/augmented',
     author='Sarang T (github.com/sarangt123)',
     author_email='sarang.thekkedathpr@gmail.com',
     license='BSD-3-Clause License',
