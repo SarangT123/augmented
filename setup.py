@@ -10,7 +10,7 @@ classifiers = [
 
 setup(
     name='augmented',
-    version='1.0.3b',
+    version='2.0.1b',
     description='Augmented reality in python made easy',
     long_description=open('README.txt').read() + '\n\n' +
     open('CHANGELOG.txt').read(),
@@ -21,8 +21,7 @@ setup(
     license='BSD-3-Clause License',
     classifiers=classifiers,
     keywords='Augmented reality',
-    install_requires=["numpy==1.19.5",
-                      "opencv-python==4.2.0.34", "keyboard==0.13.5"],
+    install_requires=["numpy==1.19.5", "opencv-contrib-python==4.5.3.56"],
     packages=find_packages(),
     python_requires=">=3.6"
 

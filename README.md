@@ -1,5 +1,5 @@
 # ar-python
-
+(outdated will be updated soon)
 Ar python is a cross platform module used to do augmented reality using python
 
 `pip install augmented`
