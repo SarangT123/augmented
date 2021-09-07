@@ -1,20 +1,20 @@
-# augmented
-Ar python is a cross platform module used to do augmented reality using python
+# augmented 🧚
+augmented is a cross platform module used to do augmented reality using python
 
-# Requirements
+# Requirements 🟥
 ----
 - opencv-contrib-python
 - Numpy
 * requirements may vary on diffrent operating systems
 
-## instalation
+## instalation ⬇️
 `pip install augmented`
 
-Thats it
+Thats it 🌟
 
-# How to use 
-## Overlaying images
-## initializing
+# How to use ❓ 
+## Overlaying images 🖼️
+## initializing 🏁
 -----------
 ```py
 import augmented
@@ -25,9 +25,11 @@ ar.setup(targetImage: str, overlayImage: str, nfeatures: int, debug: bool=True, 
 - targetImage = Image to overlay on top of
 
 - overlayImage =Image to overlay
-#### Not required but can tweak the ones below
 
 - nfeatures = Features to detect on target image the bigger the more accurate and the more resource intensive 1000 recomended
+
+#### Not required but can tweak the ones below 💻
+
 
 - debug = debug mode
 
@@ -42,8 +44,8 @@ ar.start(display=bool)
 
 - display =  Enabling display output
 
-## Aruco scanning
-### setup
+## Aruco scanning 📱
+### setup 🖱️
 ```py
 import augmented
 arucoar = augmented.arucoar(cap:int=0)
@@ -53,7 +55,7 @@ arucoar.setup(imgAug: dict, markerSize: int = 6, totalMarkers: int = 250, debug:
 
 - imgAug = a dict containing the aruco id as value and the image(location) to display when the value is True
 
-#### not neccessry but still can tweak
+#### not neccessry but still can tweak 💻
 
 - Markersize, totalMarkers = aruco code properties
 
@@ -63,14 +65,14 @@ arucoar.setup(imgAug: dict, markerSize: int = 6, totalMarkers: int = 250, debug:
 
 - displayName = tite of the display window
 ---
-### Scanning and overlaying
+### Scanning and overlaying 🖼️
 
 ```py
 arucoar.start(display=bool)
 ```
 - display = wheather to display the output or not
 
-#### recomended way of using is to put the code inside a loop
+#### recomended way of using is to put the code inside a loop 🌠
 
 --------------------------
 ## version - 2.1.0Stable
