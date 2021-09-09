@@ -106,7 +106,7 @@ class ar_overlay():
                 if m.distance < 0.75 * n.distance:
                     good.append(m)
             if self.debug:
-                print('length of good matches :' + len(good))
+                print('length of good matches :' + str(len(good)))
             imgFeatures = cv2.drawMatches(
                 self.imgTarget, self.kpds1[0], Webcam, kp2, good, None, flags=2)
             if len(good) > self.confidence:
@@ -139,7 +139,7 @@ class ar_overlay():
                     cv2.imshow('Debug window', mask)
                     cv2.imshow('Debug window', maskInverse)
             if self.debug:
-                print('length of good matches = ' + len(good))
+                print('length of good matches = ' + str(len(good)))
                 cv2.imshow('Debug window', imgFeatures)
 
             stacked = np.concatenate((Webcam, imgAug), axis=0)
