@@ -192,7 +192,7 @@ class arucoar():
             size = imgAug.shape
             #
             if self.debug:
-                print('Coords : '+str(topL, topR, btmR, btmL))
+                print('Coords : '+str(topL), str(topR), str(btmR), str(btmL))
             pts_dst = np.array([topL, topR, btmR, btmL])
             pts_src = np.array(
                 [
