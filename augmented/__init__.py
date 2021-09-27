@@ -161,7 +161,7 @@ class arucoar():
         import cv2
         import cv2.aruco as aruco
         import numpy as np
-        if not isinstance(cap, int):
+        if not isinstance(cam, int):
             raise TypeError("Expected an int")
         self.cam = cam
 
