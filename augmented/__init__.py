@@ -157,7 +157,7 @@ class ar_overlay():
 
 
 class arucoar():
-    def __int__(self, cam: int = 0):
+    def __init__(self, cam: int = 0):
         import cv2
         import cv2.aruco as aruco
         import numpy as np
