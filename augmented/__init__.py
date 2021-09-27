@@ -157,13 +157,13 @@ class ar_overlay():
 
 
 class arucoar():
-    def __int__(self, cap: int = 0):
+    def __int__(self, cam: int = 0):
         import cv2
         import cv2.aruco as aruco
         import numpy as np
         if not isinstance(cap, int):
             raise TypeError("Expected an int")
-        self.cap = cap
+        self.cam = cam
 
     def findArucoMakers(self, img, draw=True, markersize=6, totoalmarkers=250):
         img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -213,7 +213,7 @@ class arucoar():
                 print('skipped augmenting')
             return img
 
-    def setup(self, imgAug: dict, markerSize: int = 6, totalMarkers: int = 250, debug: bool = True, cam: int = 0, displayName: str = 'Augmented by Sarang'):
+    def setup(self, imgAug: dict, markerSize: int = 6, totalMarkers: int = 250, debug: bool = True, displayName: str = 'Augmented by Sarang'):
         if not isinstance(cam, int):
             raise TypeError("Expected an int")
         if not isinstance(imgAug, dict):
@@ -222,7 +222,7 @@ class arucoar():
             raise TypeError("Expected an int")
         if not isinstance(debug, bool):
             raise TypeError("Expected a bool")
-        cap = cv2.VideoCapture(cam)
+        cap = cv2.VideoCapture(self.cam)
         self.cap = cap
         self.imgAug = imgAug
         self.displayName = displayName
