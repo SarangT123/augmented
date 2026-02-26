@@ -1,11 +1,7 @@
 import cv2
 import numpy as np
 import cv2.aruco as aruco
-print("""Beta version of ar-python (Copyright (c) 2021, Sarangt123 (Sarang T))
-Created by : Sarang T (india,kerala)
-Report bugs and issues at the githubpage
-Email : sarangthekkedathpr@gmail.com
-Contributers : Sarang""")
+
 """
 Copyright (c) 2021, Sarangt123 (Sarang T)
 All rights reserved.
@@ -36,6 +32,10 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 """
+
+# augmented/__init__.py
+from importlib.metadata import version
+__version__ = version("augmented")
 
 
 class ar_overlay():
