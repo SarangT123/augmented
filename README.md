@@ -1,81 +1,119 @@
-# augmented 🧚
-augmented is a cross platform module used to do augmented reality using python
+# augmented
 
-# Requirements 🟥
-----
-- opencv-contrib-python
-- Numpy
-* requirements may vary on diffrent operating systems
+**augmented** is a cross-platform Python library for augmented reality. It provides image overlay and ArUco marker-based AR using OpenCV.
 
-## instalation ⬇️
-`pip install augmented`
+## Features
 
-Thats it 🌟
+- **Image Overlay** — Detect a target image in a live camera feed and overlay another image on top of it using ORB feature matching and homography.
+- **ArUco Marker AR** — Detect ArUco markers in real-time and augment them with custom images.
+- Debug mode for visualizing feature matches and warping steps.
+- Simple, minimal API.
 
-# How to use ❓ 
-## Overlaying images 🖼️
-## initializing 🏁
------------
-```py
+## Installation
+
+```bash
+pip install augmented
+```
+
+**Requirements:**
+- Python 3.9+
+- opencv-contrib-python >= 4.8.0
+- numpy >= 1.21.0
+
+## Usage
+
+### Image Overlay (`ar_overlay`)
+
+```python
 import augmented
-ar = augmented.ar_overlay(capture:int)#capture = camera number
-ar.setup(targetImage: str, overlayImage: str, nfeatures: int, debug: bool=True, confidence: int=25, displayName: str="Augmented by sarang")
+
+ar = augmented.ar_overlay(capture=0)
+ar.setup(
+    targetImage="target.jpg",
+    overlayImage="overlay.png",
+    nfeatures=1000,
+    debug=True,
+    confidence=25,
+    displayName="Augmented"
+)
+ar.start(display=True)
 ```
 
-- targetImage = Image to overlay on top of
+Run in a loop for continuous tracking:
 
-- overlayImage =Image to overlay
-
-- nfeatures = Features to detect on target image the bigger the more accurate and the more resource intensive 1000 recomended
-
-#### Not required but can tweak the ones below 💻
-
-
-- debug = debug mode
-
-- confidence  = How many feature matches to confirm
-
-- displayname = title name```
-
-### Overlaying
-```py
-ar.start(display=bool)
+```python
+while True:
+    ar.start(display=True)
 ```
 
-- display =  Enabling display output
+### ArUco Marker AR (`arucoar`)
 
-## Aruco scanning 📱
-### setup 🖱️
-```py
+```python
 import augmented
-arucoar = augmented.arucoar(cap:int=0)
-imgAug = {0: 'assets/unnamed.jpg'}
-arucoar.setup(imgAug: dict, markerSize: int = 6, totalMarkers: int = 250, debug: bool = True, cam: int = 0, displayName: str = 'Augmented by Sarang')
+
+arucoar = augmented.arucoar(cam=0)
+imgAug = {0: "assets/unnamed.jpg"}
+arucoar.setup(
+    imgAug=imgAug,
+    markerSize=6,
+    totalMarkers=250,
+    debug=True,
+    displayName="Augmented AR"
+)
+
+while True:
+    arucoar.start(display=True)
 ```
 
-- imgAug = a dict containing the aruco id as value and the image(location) to display when the value is True
+## API Reference
 
-#### not neccessry but still can tweak 💻
+### `ar_overlay(capture: int)`
 
-- Markersize, totalMarkers = aruco code properties
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `capture` | `int` | Camera device index |
 
-- debug = to use debug mode
+#### `setup(targetImage, overlayImage, nfeatures, debug, confidence, displayName)`
 
-- cam = camera number
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `targetImage` | `str` | — | Path to the image to detect |
+| `overlayImage` | `str` | — | Path to the overlay image |
+| `nfeatures` | `int` | — | Number of ORB features to detect (1000 recommended) |
+| `debug` | `bool` | `True` | Show debug visualizations |
+| `confidence` | `int` | `25` | Minimum feature matches to trigger overlay |
+| `displayName` | `str` | `"Augmented by sarang"` | OpenCV window title |
 
-- displayName = tite of the display window
----
-### Scanning and overlaying 🖼️
+#### `start(display: bool) -> list`
 
-```py
-arucoar.start(display=bool)
-```
-- display = wheather to display the output or not
+Process one frame. Returns `[stacked_frame, augmented_frame]`.
 
-#### recomended way of using is to put the code inside a loop 🌠
+### `arucoar(cam: int)`
 
---------------------------
-## version - 2.1.0Stable
-## contributions are appreciated and will be credited in the package
-# Thank you 
-# Happy augmenting
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `cam` | `int` | `0` | Camera device index |
+
+#### `setup(imgAug, markerSize, totalMarkers, debug, displayName)`
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `imgAug` | `dict` | — | `{aruco_id: image_path}` mapping |
+| `markerSize` | `int` | `6` | ArUco marker grid size |
+| `totalMarkers` | `int` | `250` | Total markers in the dictionary |
+| `debug` | `bool` | `True` | Enable debug output |
+| `displayName` | `str` | `"Augmented by Sarang"` | OpenCV window title |
+
+#### `start(display: bool) -> numpy.ndarray`
+
+Process one frame. Returns the augmented frame.
+
+## License
+
+BSD-3-Clause. See [LICENSE](./license).
+
+## Links
+
+- **PyPI**: [pypi.org/project/augmented](https://pypi.org/project/augmented/)
+- **Source**: [github.com/SarangT123/augmented-documentation](https://github.com/SarangT123/augmented-documentation)
+- **Docs**: [sarangt123.github.io/augmented-documentation](https://sarangt123.github.io/augmented-documentation/)
